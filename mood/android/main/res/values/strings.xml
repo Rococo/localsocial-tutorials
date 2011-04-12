@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Mood</string>
+    <string name="authorising">Contacting LocalSocial, please wait</string>
+    <string name="authorise">authorise</string>
+    <string name="unauthorised">unauthorised</string>
+   <string name="request_token_error">
+        Doh!\n
+        \nWe were unable connect with LocalSocial.
+        \n
+        \nClick continue and try again later.
+    </string>
+   <string name="access_denied_error">
+        Doh!\n
+        \nYou have denied access. You will not be able to use this app until
+        \n you allow access.
+        \n
+        \nClick continue and try again later.
+    </string>
+   <string name="access_token_error">
+        Doh!\n
+        \nWe were unable allow access to LocalSocial, did you click the Deny button?
+        \n
+        \nClick continue and try again later.
+    </string>
+   <string name="initial_login_text">
+        Congratulations!\n
+        \nYou\'ve just installed Tulsi for Android. Tulsi needs you to connect with LocalSocial.
+        \n
+        \nClick continue to connect Tulsi with LocalSocial.
+        \n
+        \nDon\'t have an account? No problem! You can register while you connect, if you want. It\'s quick and easy.
+
+    </string>
+    <string name="reauth_login_text">
+        You no longer have a valid LocalSocial account linked with In³!
+        \n
+        \nClick continue to pop on over to LocalSocial.com and login. When prompted, connect In³ with LocalSocial.
+    </string>
+    <string name="authotize_text">
+        Tulsi would like access to your LocalSocial account. \n
+        \n
+        Only allow access to third party applications that you trust.\n
+    </string>
+    <string name="menu_start_scan">Start Scan</string>
+    <string name="menu_discoverable">Make Discoverable</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_clear">Clear</string>
+    <string name="menu_about">About</string>
+
+</resources>

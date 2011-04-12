@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string-array name="listValues">
+		<item>-1</item>
+		<item>300</item>
+		<item>600</item>
+		<item>900</item>
+	</string-array>
+
+	<string-array name="listArray">
+		<item>every time</item>
+		<item>every 5 minutes</item>
+		<item>every 10 minutes</item>
+		<item>every 15 minutes</item>
+	</string-array>
+
+</resources>

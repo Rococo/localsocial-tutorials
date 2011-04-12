@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/device_row"
+                android:layout_width="fill_parent"
+                android:layout_height="150px"
+                android:padding="6dip">
+    <ImageView
+            android:id="@+id/device_image"
+            android:src="@drawable/unknown_tab"
+            android:maxHeight="40px"
+            android:minHeight="40px"
+            android:scaleType="fitStart"
+            android:layout_width="40px"
+            android:layout_height="40px"
+            android:layout_margin="5dip"
+            android:layout_gravity="left|center"/>
+    <ImageView
+            android:id="@+id/favourite_image"
+            android:src="@drawable/favourite_tab"
+            android:visibility="invisible"
+            android:maxHeight="20px"
+            android:minHeight="20px"
+            android:scaleType="fitStart"
+            android:layout_width="20px"
+            android:layout_height="20px"
+            android:layout_margin="5dip"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right|center"/>
+    <TextView android:id="@+id/device_name"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:singleLine="true"
+              android:layout_toRightOf="@id/device_image"
+              android:layout_alignTop="@id/device_image"
+              android:layout_marginLeft="10dip"
+              android:textSize="20px"
+              android:textStyle="bold"/>
+    <TextView android:id="@+id/device_bdaddr"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:singleLine="true"
+              android:layout_toRightOf="@id/device_image"
+              android:layout_below="@id/device_name"
+              android:layout_marginLeft="10dip"
+              android:textSize="15px"
+              android:textStyle="italic"
+              android:paddingLeft="10px"/>
+</RelativeLayout>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:background="#ffffffff" 
+              android:layout_width="fill_parent"
+	          android:layout_below="@+id/header" 
+	          android:layout_height="fill_parent"
+	          android:orientation="vertical">
+	<ImageButton android:id="@+id/mood_icon"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:layout_marginBottom="20px" android:src="@drawable/icon"
+		android:layout_gravity="center" />
+
+	<EditText android:id="@+id/mood_edit" android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:layout_below="@id/mood_icon"
+		android:text="enter your email" />
+	<Button android:id="@+id/save_btn" android:text="update"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:layout_below="@id/gallery" />
+	<LinearLayout android:background="@drawable/device_list_border"
+		android:layout_width="fill_parent" android:layout_below="@+id/header"
+		android:layout_height="fill_parent" android:orientation="vertical">
+		<ListView android:id="@+id/devicesview"
+			android:layout_width="fill_parent" 
+			android:layout_height="fill_parent"
+			android:background="#ffffff" android:divider="#ffcccccc"
+			android:dividerHeight="1dip" />
+	</LinearLayout>
+</LinearLayout>

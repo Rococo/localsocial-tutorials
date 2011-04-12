@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/eventview_scroller" android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+    <LinearLayout android:layout_width="fill_parent"
+                  android:layout_below="@+id/header" android:layout_height="wrap_content"
+                  android:orientation="vertical">
+        <ImageView android:id="@+id/eventview_image"
+                   android:layout_width="wrap_content" android:layout_height="wrap_content"
+                   android:layout_margin="10sp" android:layout_gravity="center"/>
+        <TextView android:id="@+id/profilesview_text"
+                  android:layout_width="wrap_content" android:layout_height="wrap_content"
+                />
+        <TextView android:id="@+id/profilesview_title"
+                  android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    </LinearLayout>
+</ScrollView>
