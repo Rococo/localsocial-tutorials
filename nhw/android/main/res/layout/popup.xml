@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="75dip" 
+              android:id="@+id/lnparentpopup"
+              android:layout_height="fill_parent">
+    <LinearLayout android:layout_width="fill_parent"
+                  android:layout_height="wrap_content" 
+                  android:id="@+id/lncontainerpopup"
+                  android:orientation="horizontal" 
+                  android:background="@drawable/top_blue_strip_bg">
+                  <!--android:text="@string/scorecard_off_msg"-->
+        <!-- TextView android:id="@+id/txtpopup" 
+                  android:text="scorecard off msg"
+                  android:layout_width="200dip" 
+                  android:layout_height="wrap_content"
+                  android:layout_marginRight="5dip" /-->              
+        <Gallery 
+            android:id="@+id/gallery"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dip"
+                        android:layout_gravity="center_horizontal|bottom"
+                        android:padding="1dip"
+                        android:background="#AA000000"
+            />
+    </LinearLayout>
+</LinearLayout>

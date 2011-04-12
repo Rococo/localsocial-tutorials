@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/device_row" android:layout_width="fill_parent"
+	android:layout_height="150px" android:padding="6dip">
+    <ImageView android:id="@+id/mood_icon"  android:src="@drawable/icon"  
+               android:maxHeight="40px"
+               android:minHeight="40px"
+               android:scaleType="fitStart"
+               android:layout_width="40px"
+               android:layout_height="40px"
+               android:layout_gravity="left|center"
+               />
+    <ImageView android:id="@+id/fav_icon"  
+               android:src="@drawable/ic_fav"  
+               android:maxHeight="40px"
+               android:minHeight="40px"
+               android:visibility="invisible"
+               android:layout_width="40px"
+               android:layout_height="40px"
+               android:layout_gravity="center"
+               android:layout_toRightOf="@id/mood_icon"
+               android:layout_alignTop="@id/mood_icon"
+               />
+		       
+    <TextView android:id="@+id/mood"
+              android:layout_width="wrap_content" 
+              android:layout_height="wrap_content"
+              android:singleLine="true" 
+              android:layout_marginLeft="10dip"
+              android:textSize="15px" 
+              android:textStyle="italic"
+              android:paddingLeft="10px" 
+              android:layout_toRightOf="@id/fav_icon"
+              android:layout_alignTop="@id/fav_icon"
+               android:layout_gravity="center"
+              />
+    <TextView android:id="@+id/device_details"
+              android:layout_width="wrap_content" 
+              android:layout_height="wrap_content"
+              android:singleLine="true" 
+              android:layout_marginLeft="10dip"
+              android:textSize="15px" 
+              android:textStyle="italic"
+              android:paddingLeft="10px" 
+              android:layout_toRightOf="@id/mood"
+              android:layout_alignTop="@id/mood"
+               android:layout_gravity="center"
+              />
+</RelativeLayout>
