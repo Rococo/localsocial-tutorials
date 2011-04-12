@@ -1059,8 +1059,8 @@ public class MainActivity extends Activity {
         
         sac.setPlatformContext(platform);
         sac.setServiceName("Mood");
-        sac.setConsumerKey("c193NgtwvvN8q5xoKPppotPlXO8vlpPo6jhwTsx0");
-        sac.setConsumerSecret("eaiU1ga79W09Em8V4LzALtPKp3i6SxXh9i0WLWAa");
+        sac.setConsumerKey("XXX GEY A KEY XXX");
+        sac.setConsumerSecret("XXX GEY A KEY XXX");
         
         LocalSocialFactory.setDefaultConfig(sac);
 
