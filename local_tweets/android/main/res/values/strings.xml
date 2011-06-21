@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Local Tweets</string>
+    <string name="menu_discoverable">Make Discoverable</string>
+    <string name="menu_settings">Settings</string>
+    <string name="authorising">Contacting LocalSocial, please wait</string>
+    <string name="lbl_powered_by_ls">Powered by LocalSocial™</string>
+    <string name="txt_view_more_tweets">Press to view more tweets!</string>
+    <string name="toast_offline_warning">Unable to contact LocalSocial at this time! Please enable network connectivity.</string>
+    <string name="toast_no_twitter_for_device">No Twitter Account for %s</string>
+    <string name="no_bluetooth_warning">Bluetooth must be enabled to use this app!</string>
+    <string name="ls_auth_error">There was a problem contacting LocalSocial!"</string>
+    <string name="txt_loading">Loading</string>
+    <string name="twitter_auth_cancelled">Twitter Auth Cancelled. Please try again later!</string>
+    <string name="twitter_auth_fail">Twitter Auth Failed. Please try again later!</string>
+
+</resources>

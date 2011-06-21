@@ -1,0 +1,104 @@
+<script language="javascript">
+    function acceptClick() {
+    accept.performClick();
+    document.getElementById("accept").value = "Accept";
+    }
+    function cancelClick(){
+    cancel.performClick();
+    document.getElementById("cancel").value = "Cancel";
+    }
+</script>
+<html>
+<head>
+    <style type="text/css">
+        body {
+            color: white;
+            background: black;
+        }
+
+        div {
+        /*text-align: center;*/
+        }
+
+        h4 {
+            text-decoration: underline;
+        }
+
+        .button {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 10px;
+            font-size: 24px;
+            width: 100%;
+        }
+
+        .header {
+            width: 100%;
+            background-color: #285b6c;
+        }
+
+        .main {
+            width: 100%;
+        }
+
+        .main img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .header img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .capture {
+            float: left;
+        }
+
+        .right {
+            float: right;
+        }
+
+        a:link {
+            color: white;
+            text-decoration: underline;
+        }
+
+        a:active {
+            color: white;
+            text-decoration: underline;
+        }
+
+        a:visited {
+            color: white;
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class='header'>
+    <img style="text-align:center;" src="file:///android_asset/logo_small_nobg2.png"/>
+</div>
+<div class='main'>
+    <img src="file:///android_asset/tweetaround_localsocial_twitter.png"/>
+
+    <p>LocalTweets is powered by LocalSocial <b>"The Proximity Platform"</b>, and requires Authorisation with a valid
+        Twitter account. Connect now to start discovering new Twitter users near you.</p>
+    <p>Simply click "Continue", and you will be re-directed to Twitter. You only need to do this once.</p>
+    <div>
+        <button type="button" id="accept" class="button" onclick="acceptClick();">
+            Continue
+        </button>
+        <button type="button" id="cancel" class="button" onclick="cancelClick();">
+            Cancel
+        </button>
+    </div>
+</div>
+
+</body>
+</html>
