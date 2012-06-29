@@ -23,7 +23,6 @@ import com.localsocial.oauth.AccessToken;
 import com.localsocial.oauth.OAuthConsumer;
 import com.localsocial.oauth.RequestToken;
 import com.localsocial.oauth.Verifier;
-import com.localsocial.proximity.PeriodicScan;
 import com.localsocial.proximity.observers.NeighbourhoodObserver;
 import com.localsocial.proximity.observers.NeighbourhoodObserverAdapter;
 import com.localsocial.remote.exception.LocalSocialError;
@@ -55,61 +54,61 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends ListActivity {	
+public class MainActivity extends ListActivity {
 
-	// logging
-	private boolean d = true;
-	private final String TAG = getClass().getName();
-	
-	// listview
-	private LayoutInflater mInflater;
-	//private Vector<String> devices = new Vector<String>();
-	private Vector<LocalTweetsItem> devices = new Vector<LocalTweetsItem>();
-	private CustomAdapter adapter;
-		
-	// executor
-	protected final Executor m_executor = Executors.newCachedThreadPool();
-	
-	// handler
-	protected final Handler m_handler = new Handler();
-	
-	// dialog codes
-	private static final int REQUEST_ENABLE_BT = 0;
+    // logging
+    private boolean d = true;
+    private final String TAG = getClass().getName();
+
+    // listview
+    private LayoutInflater mInflater;
+    //private Vector<String> devices = new Vector<String>();
+    private Vector<LocalTweetsItem> devices = new Vector<LocalTweetsItem>();
+    private CustomAdapter adapter;
+
+    // executor
+    protected final Executor m_executor = Executors.newCachedThreadPool();
+
+    // handler
+    protected final Handler m_handler = new Handler();
+
+    // dialog codes
+    private static final int REQUEST_ENABLE_BT = 0;
     private static final int REQUEST_CODE_AUTH_TWITTER = 1;
-    
+
     private static final int DIALOG_FINISH_NO_BT = 2;
     private static final int DIALOG_FINISH_AUTH_ERROR = 3;
-	
+
     // Twitter
     public Network twitter;
     public boolean triedNetwork = false;
-	
-	// LocalSocial
+
+    // LocalSocial
     private LocalSocial m_localsocial;
     private NeighbourhoodObserver m_nobby = null;
     private Neighbourhood m_neighbourhood;
-    private PeriodicScan m_scan;
-    
+
     // LocalSocial config
-    private final static String CALLBACK =   "LocalTweets://callback";
-    private final static String NAME = 		 "LocalTweets";
-    private final static String KEY =        "UpLHN9YbMcBHMVnWNcyouev0LegFdGlPsaA0S4b9";
-    private final static String SECRET =     "RqMe7ntR7hxgNomZqxq1FcgEWEmAQRtNAAcBtbiz";
+    private final static String CALLBACK = "LocalTweets://callback";
+    private final static String NAME = "LocalTweets";
+    private final static String KEY = "UpLHN9YbMcBHMVnWNcyouev0LegFdGlPsaA0S4b9";
+    private final static String SECRET = "RqMe7ntR7hxgNomZqxq1FcgEWEmAQRtNAAcBtbiz";
     private SimpleAppConfiguration m_sac = new SimpleAppConfiguration(CALLBACK, NAME, KEY, SECRET, null);
-	
-	
-	
-    /** Called when the activity is first created. */
+
+
+    /**
+     * Called when the activity is first created.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        
+
         mInflater = (LayoutInflater) getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         adapter = new CustomAdapter(this, R.layout.main, R.id.device, devices);
-        setListAdapter(adapter);        
+        setListAdapter(adapter);
         getListView().setTextFilterEnabled(true);
-        
+
         // *** LocalSocial Config ***
         Platform platform = new Platform();
         platform.setContext(getApplication());
@@ -117,16 +116,16 @@ public class MainActivity extends ListActivity {
         m_sac.setPlatformContext(platform);
         LocalSocialFactory.setDefaultConfig(LocalSocialFactory.populate(m_sac));
         m_localsocial = LocalSocialFactory.getLocalSocial();
-        
+
         if (d) Log.d(TAG, "LocalSocial configured");
         // ***
-                    
+
     }
-    
+
     public void onListItemClick(ListView parent, View v, int position, long id) {
         CustomAdapter adapter = (CustomAdapter) parent.getAdapter();
-        LocalTweetsItem lt_item = adapter.getItem(position);                
-        
+        LocalTweetsItem lt_item = adapter.getItem(position);
+
         if (null != lt_item.getNetwork()) {
             Uri uri = Uri.parse("http://mobile.twitter.com/" + lt_item.getTitle());
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -135,70 +134,69 @@ public class MainActivity extends ListActivity {
             Toast.makeText(this, String.format(getString(R.string.toast_no_twitter_for_device), lt_item.getTitle()), Toast.LENGTH_LONG).show();
         }
     }
-    
+
     private class CustomAdapter extends ArrayAdapter<LocalTweetsItem> {
 
         public CustomAdapter(Context context, int resource,
-                        int textViewResourceId, List<LocalTweetsItem> lt_items) {
-                super(context, resource, textViewResourceId, lt_items);
+                             int textViewResourceId, List<LocalTweetsItem> lt_items) {
+            super(context, resource, textViewResourceId, lt_items);
 
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-                ViewHolder holder = null;
+            ViewHolder holder = null;
 
-                TextView device_name = null;
-                LocalTweetsItem lt_item = getItem(position);
+            TextView device_name = null;
+            LocalTweetsItem lt_item = getItem(position);
 
-                if(null == convertView){
-                        convertView = mInflater.inflate(R.layout.item, null);
-                        holder = new ViewHolder(convertView);
-                        convertView.setTag(holder);
-                }
-                
-                holder = (ViewHolder) convertView.getTag();
-                device_name = holder.getItem();
-                device_name.setText(lt_item.getName());
-                
-                Log.d("Device", "Trying to get name..." + lt_item.getName() + " of the device " + lt_item.getDevice().getAddress());
+            if (null == convertView) {
+                convertView = mInflater.inflate(R.layout.item, null);
+                holder = new ViewHolder(convertView);
+                convertView.setTag(holder);
+            }
 
-                return convertView;
+            holder = (ViewHolder) convertView.getTag();
+            device_name = holder.getItem();
+            device_name.setText(lt_item.getName());
+
+            Log.d("Device", "Trying to get name..." + lt_item.getName() + " of the device " + lt_item.getDevice().getAddress());
+
+            return convertView;
         }
-}
-    
+    }
+
     /**
      * Wrapper for row data.
-     *
      */
-    private class ViewHolder {      
-    	private View row;
+    private class ViewHolder {
+        private View row;
         private TextView item = null;
 
         public ViewHolder(View row) {
-        	this.row = row;
+            this.row = row;
         }
-        
+
         public TextView getItem() {
-            if(null == item){
-            	item = (TextView) row.findViewById(R.id.device);
+            if (null == item) {
+                item = (TextView) row.findViewById(R.id.device);
             }
             return item;
-        }       
+        }
     }
-    
+
     @Override
     protected void onStart() {
-    	Log.i(TAG, "onStart()");
-        super.onStart();     
-    	bootstrap();   
+        Log.i(TAG, "onStart()");
+        super.onStart();
+        bootstrap();
     }
-    
+
     @Override
     protected void onPause() {
         Log.i(TAG, "onPause()");
         stopScan();
-        super.onPause();        
+        super.onPause();
     }
 
     @Override
@@ -206,8 +204,8 @@ public class MainActivity extends ListActivity {
         Log.i(TAG, "onResume()");
         super.onResume();
     }
-    
-   
+
+
     /**
      * Called when a launched activity exits
      */
@@ -242,42 +240,43 @@ public class MainActivity extends ListActivity {
                 break;
         }
     }
-    
+
     private void finishAuthFailed(String msg) {
         triedNetwork = true;
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
         // TODO is it the right thing to do?
         startScan();
     }
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         return true;
     }
-    
+
     /**
      * Called when a menu item is clicked
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {           
+        switch (item.getItemId()) {
             case R.id.discovery_status:
-            	Intent discoverableIntent = new
-            	Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-            	discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
-            	startActivity(discoverableIntent);
-            	break;
+                Intent discoverableIntent = new
+                        Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+                discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
+                startActivity(discoverableIntent);
+                break;
             case R.id.scan_status:
-            	startScan();
-            	break;
+                startScan();
+                break;
         }
         return true;
     }
-   
+
     /**
      * Dialogs
+     *
      * @param id dialog id
      */
     protected Dialog onCreateDialog(int id) {
@@ -312,31 +311,31 @@ public class MainActivity extends ListActivity {
                 });
         return builder.create();
     }
-    
+
     /**
      * LocalSocial bootstrap
      */
     protected void bootstrap() {
-    	if (d) Log.d(TAG, "bootstrap");
+        if (d) Log.d(TAG, "bootstrap");
         if (!bluetoothEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
         } else {
             if (isOnline()) {
                 if (!authorised()) {
-                	if (d) Log.d(TAG, "not authorised");
+                    if (d) Log.d(TAG, "not authorised");
                     try {
-                    	if (d) Log.d(TAG, "trying to load access token");
+                        if (d) Log.d(TAG, "trying to load access token");
                         m_localsocial.loadAccessToken();
                     } catch (UnauthorizedException e) {
-                    	if (d) Log.d(TAG, "notauth exception");
+                        if (d) Log.d(TAG, "notauth exception");
                         e.printStackTrace();
                     }
                     if (!authorised()) {
                         authorise();
                         return;
                     }
-                }              
+                }
                 boolean forceReAuth = false; //For Testing
                 if ((forceReAuth || null == twitter) && !triedNetwork) {
                     doGetMyTwitter(forceReAuth);
@@ -348,10 +347,11 @@ public class MainActivity extends ListActivity {
             }
         }
     }
-    
+
     /*
-     * Check if authorised with LocalSocial
-     */
+    * Check if authorised with LocalSocial
+    */
+
     private boolean authorised() {
         try {
             return m_localsocial.getAccessToken() != null;
@@ -362,6 +362,7 @@ public class MainActivity extends ListActivity {
 
     /**
      * Check if a device supports Bluetooth
+     *
      * @return true if device provides Bluetooth support and it is enabled
      */
     private boolean bluetoothEnabled() {
@@ -374,21 +375,22 @@ public class MainActivity extends ListActivity {
 
     /**
      * Check if a device is connected to a network
-     * @return	true if connected, false otherwise
+     *
+     * @return true if connected, false otherwise
      */
     public boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return (netInfo != null && netInfo.isConnectedOrConnecting());
     }
-    
+
     /**
      * Authorise with LocalSocial
      */
     private void authorise() {
         doAuthorise();
     }
-    
+
     /**
      * Authorise with LocalSocial
      */
@@ -416,33 +418,26 @@ public class MainActivity extends ListActivity {
             }
         });
     }
-    
-    /**
-     * Start Bluetooth scan
-     */
-    private void startScan() {
-        m_localsocial.getNeighbourhood().observeNeighbourhood(getNeighbourhoodObserver());
-        m_scan = m_localsocial.getNeighbourhood().startScan();
-    }
 
-    /**
-     * Stop Bluetooth scan
-     */
-    private void stopScan() {
-        if (d) Log.d(TAG, "MainActivity.stopScan");
-        m_localsocial.getNeighbourhood().removeObserver(getNeighbourhoodObserver());
-        if (m_scan != null) {
-            m_scan.stop();
-            m_scan = null;
+    private void startScan() {
+        Log.d(TAG, "startScan");
+        if (null != m_localsocial) {
+            m_localsocial.getNeighbourhood().observeNeighbourhood(getNeighbourhoodObserver());
+            m_localsocial.getNeighbourhood().startScan();
         }
     }
 
-    /**
-     * Restart bluetooth scan
-     */
+    private void stopScan() {
+        Log.d(TAG, "stopScan");
+        if (null != m_localsocial) {
+            m_localsocial.getNeighbourhood().removeObserver(getNeighbourhoodObserver());
+            m_localsocial.getNeighbourhood().stopScan();
+        }
+    }
+
     private void restartScan() {
-        if (d) Log.d(TAG, "MainActivity.restartScan");
-        if (m_scan != null && !m_scan.isCurrentlyScanning()) {
+        Log.d(TAG, "restartScan");
+        if (null != m_localsocial && !m_localsocial.getNeighbourhood().isCurrentlyScanning()) {
             stopScan();
             startScan();
         }
@@ -451,23 +446,23 @@ public class MainActivity extends ListActivity {
     /*
      * NeighbourhoodObserver
      */
+
     protected NeighbourhoodObserver getNeighbourhoodObserver() {
         if (null == m_nobby) {
             m_nobby = new NeighbourhoodObserverAdapter() {
-            	final Map<String, Device> m_inRange = new HashMap<String, Device>();                
+                final Map<String, Device> m_inRange = new HashMap<String, Device>();
 
                 @Override
                 public void discovered(final Device device) {
-                	
-                	if (d) Log.d("Scan", "discovered : " + device.getAddress());
-                	
+
+                    if (d) Log.d("Scan", "discovered : " + device.getAddress());
+
                     device.setTimeout(60000);
                     synchronized (m_inRange) {
                         String mac = device.getAddress();
                         if (!m_inRange.containsKey(mac)) {
                             m_inRange.put(mac, device);
                             m_executor.execute(new Runnable() {
-                                @Override
                                 public void run() {
                                     try {
                                         getNetworkInfo(device);
@@ -480,28 +475,28 @@ public class MainActivity extends ListActivity {
                                     }
                                 }
                             });
-                            
+
                             LocalTweetsItem lt_item = new LocalTweetsItem(device);
                             try {
-								Network try_twitter = getTwitterInfo(device.getAddress());
-								lt_item.setNetwork(try_twitter);
-							} catch (JSONException e) {
-								e.printStackTrace();
-							} catch (IOException e) {
-								e.printStackTrace();
-							}
-							
-							if (d) Log.d("Device", "discovered " + lt_item.getDevice().getAddress());
-                            
+                                Network try_twitter = getTwitterInfo(device.getAddress());
+                                lt_item.setNetwork(try_twitter);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                            if (d) Log.d("Device", "discovered " + lt_item.getDevice().getAddress());
+
                             devices.add(lt_item);
-                            adapter.notifyDataSetChanged(); 
+                            adapter.notifyDataSetChanged();
                         }
                     }
                 }
 
                 @Override
-                public void scanModeChanged(int mode) {
-                    if (d) Log.d("Scan", "scan mode changed to " + mode);
+                public void scanModeChanged(String address, int mode) {
+                    if (d) Log.d("Scan", "scan mode changed to " + mode + " for " + address);
                 }
 
                 @Override
@@ -512,27 +507,28 @@ public class MainActivity extends ListActivity {
                 @Override
                 public void outOfRange(final Device device) {
                     if (d) Log.d("Scan", "outOfRange : " + device.getAddress());
-                    
+
                     LocalTweetsItem to_remove = null;
                     Iterator<LocalTweetsItem> it = devices.iterator();
                     while (it.hasNext()) {
-                    	LocalTweetsItem curr = it.next();
-                    	if (curr.getDevice().getAddress() == device.getAddress()) {
-                    		to_remove = curr;
-                    	}
+                        LocalTweetsItem curr = it.next();
+                        if (curr.getDevice().getAddress() == device.getAddress()) {
+                            to_remove = curr;
+                        }
                     }
-                    
+
                     m_inRange.remove(device.getAddress());
                     devices.remove(to_remove);
                     adapter.notifyDataSetChanged();
-                }                
+                }
             };
         }
         return m_nobby;
     }
-    
-    
+
+
     // Twitter related
+
     /**
      * Starts TwitterAuthActivity
      */
@@ -544,7 +540,7 @@ public class MainActivity extends ListActivity {
         intent.putExtra("API", m_localsocial.getConfig().getBase());
         startActivityForResult(intent, REQUEST_CODE_AUTH_TWITTER);
     }
-    
+
     private String getLocation(String u) {
         URI uri = URI.create(u);
         String t = uri.getPath();
@@ -553,10 +549,9 @@ public class MainActivity extends ListActivity {
         }
         return t;
     }
-    
+
     public void doGetMyTwitter(final boolean forceReAuth) {
         m_executor.execute(new Runnable() {
-            @Override
             public void run() {
                 try {
                     getMyTwitter(forceReAuth);
@@ -578,9 +573,9 @@ public class MainActivity extends ListActivity {
                 Log.e(TAG, "Error getting twitter : " + t.getMessage());
             }
         }
-        
+
         if (d) Log.d("temp", "Twitter Name = " + twitter.getName());
-        
+
         m_handler.post(new Runnable() {
             public void run() {
                 if (forceReAuth || null == twitter) {
@@ -591,11 +586,10 @@ public class MainActivity extends ListActivity {
             }
         });
     }
-    
+
     private void loadAndPublishNetwork(final String location) {
         m_executor.execute(new Runnable() {
 
-            @Override
             public void run() {
                 try {
                     twitter = m_localsocial.getRemoteFactory().getNetworkRemote().getNetworkFromLocation(location);
@@ -616,9 +610,10 @@ public class MainActivity extends ListActivity {
             }
         });
     }
-    
+
     /**
-     * Get network info from a device found via Bluetooth scan 
+     * Get network info from a device found via Bluetooth scan
+     *
      * @param device
      * @throws IOException
      * @throws JSONException
@@ -634,9 +629,10 @@ public class MainActivity extends ListActivity {
 //            }
 //        });
     }
-    
+
     /**
-     * Get device's Twitter network info 
+     * Get device's Twitter network info
+     *
      * @param macAddress MAC address of a device found via Bluetooth scan
      * @return
      * @throws IOException
@@ -646,12 +642,12 @@ public class MainActivity extends ListActivity {
         Log.d(TAG, "MainActivity.getTwitterInfo");
         Network n = null;
         try {
-            n = m_localsocial.getRemoteFactory().getTulsiRemote().getNetwork("Twitter", macAddress);            
+            n = m_localsocial.getRemoteFactory().getTulsiRemote().getNetwork("Twitter", macAddress);
         } catch (Throwable t) {
             Log.d(TAG, "Error getting twitter : " + t.getMessage());
         }
         return n;
     }
-    
-    
+
+
 }
