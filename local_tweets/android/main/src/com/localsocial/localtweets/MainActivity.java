@@ -574,7 +574,9 @@ public class MainActivity extends ListActivity {
             }
         }
 
-        if (d) Log.d("temp", "Twitter Name = " + twitter.getName());
+        if (d && null != twitter) {
+            Log.d("temp", "Twitter Name = " + twitter.getName());
+        }
 
         m_handler.post(new Runnable() {
             public void run() {
