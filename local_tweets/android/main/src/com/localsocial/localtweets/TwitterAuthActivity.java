@@ -160,6 +160,7 @@ public class TwitterAuthActivity extends Activity implements View.OnClickListene
                     if (response.getStatus() == 302) {
                         String location = response.getLocation();
                         String cookie = response.getCookie();
+                        Log.d(TAG, "Cookie String == " + cookie);
                         int i;
                         if (cookie != null && (i = cookie.indexOf(';')) != -1) {
                             cookie = cookie.substring(0, i);
@@ -169,14 +170,11 @@ public class TwitterAuthActivity extends Activity implements View.OnClickListene
                             if (d) Log.d(TAG, "Cookie null");
                         }
                         Log.d(TAG, "Cookie == " + cookie);
-                        Log.d(TAG, "Redirected to " + location);
-
-                        URI uri = URI.create(location);
-                        String myUrl = uri.getScheme() + "://" + uri.getHost();
-                        CookieSyncManager.createInstance(TwitterAuthActivity.this);
-                        cookieManager = CookieManager.getInstance();
-                        cookieManager.setCookie(myUrl, cookie);
+                        //ToDo Either extract the domain from the cookie or set it from LS Config
+                        cookieManager.setCookie(".mylocalsocial.com", cookie);
+                        cookieManager.setCookie("mylocalsocial.com", cookie);
                         CookieSyncManager.getInstance().sync();
+                        Log.d(TAG, "Redirecting to " + location + " :: Cookie = " + cookieManager.getCookie(location));
                         loadWebPage(location);
                     }
                 } catch (LocalSocialError lsr) {
@@ -192,9 +190,9 @@ public class TwitterAuthActivity extends Activity implements View.OnClickListene
             }
         });
     }
-    
-    
-    
+
+
+
     private class TwitterWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {

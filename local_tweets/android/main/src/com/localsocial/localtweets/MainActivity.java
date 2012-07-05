@@ -93,7 +93,7 @@ public class MainActivity extends ListActivity {
     private final static String NAME = "LocalTweets";
     private final static String KEY = "UpLHN9YbMcBHMVnWNcyouev0LegFdGlPsaA0S4b9";
     private final static String SECRET = "RqMe7ntR7hxgNomZqxq1FcgEWEmAQRtNAAcBtbiz";
-    private SimpleAppConfiguration m_sac = new SimpleAppConfiguration(CALLBACK, NAME, KEY, SECRET, null);
+    private SimpleAppConfiguration m_sac = null;
 
 
     /**
@@ -110,16 +110,25 @@ public class MainActivity extends ListActivity {
         getListView().setTextFilterEnabled(true);
 
         // *** LocalSocial Config ***
-        Platform platform = new Platform();
-        platform.setContext(getApplication());
-        LoggerFactory.load(platform);
-        m_sac.setPlatformContext(platform);
-        LocalSocialFactory.setDefaultConfig(LocalSocialFactory.populate(m_sac));
+        LocalSocialFactory.setDefaultConfig(getSimpleAppConfig());
         m_localsocial = LocalSocialFactory.getLocalSocial();
 
         if (d) Log.d(TAG, "LocalSocial configured");
         // ***
 
+    }
+
+    protected SimpleAppConfiguration getSimpleAppConfig() {
+        if (m_sac == null) {
+            Platform platform = new Platform();
+            platform.setContext(getApplication());
+            LoggerFactory.load(platform);
+            m_sac = new SimpleAppConfiguration(CALLBACK, NAME, KEY, SECRET, null);
+            m_sac.setPlatformContext(platform);
+            String[] scanners = {LocalSocial.TYPE_BT};
+            m_sac.setScannerTypes(scanners);
+        }
+        return m_sac;
     }
 
     public void onListItemClick(ListView parent, View v, int position, long id) {
@@ -224,7 +233,6 @@ public class MainActivity extends ListActivity {
                     Log.d(TAG, "Network added");
                     String location = getLocation(data.getStringExtra("result"));
                     loadAndPublishNetwork(location);
-                    if (d) Log.d(TAG, "Twitter account name = " + twitter.m_name);
                 } else if (resultCode == RESULT_CANCELED) {
                     Log.d(TAG, "Auth cancelled");
                     finishAuthFailed(this.getString(R.string.twitter_auth_cancelled));
